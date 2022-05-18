@@ -1,0 +1,121 @@
+# path and aliases
+[ -f "$HOME/.config/zsh/path.zsh" ] && source "$HOME/.config/zsh/path.zsh"
+[ -f "$HOME/.config/zsh/alias.zsh" ] && source "$HOME/.config/zsh/alias.zsh"
+
+[[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh
+
+
+# Johnny Decimal
+jcdfunction() {
+	if [ $# -eq 0 ]; then
+		cd ~/Documents
+	fi
+	if [ $# -eq 1 ]; then
+		cd ~/Documents/*/${1}*
+	fi
+	if [ $# -eq 2 ]; then
+        	cd ~/Documents/*/${1}*/${2}*
+	fi
+
+}
+export jcdfunction
+alias jcd='jcdfunction'
+
+ 
+# ------------ cool zsh ------------
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.cache/zsh/history
+ 
+# auto/tab complete
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)
+
+# vi mode
+bindkey -v
+# make vi mode transitions faster
+export KEYTIMEOUT=1
+# use my mapping
+bindkey -M vicmd 'n' vi-backward-char
+bindkey -M vicmd 'u' vi-up-line-or-history
+bindkey -M vicmd 'i' vi-forward-char
+bindkey -M vicmd 'e' vi-down-line-or-history
+bindkey -M vicmd 'j' vi-forward-word-end
+bindkey -M vicmd 'j' vi-forward-blank-word-end
+bindkey -M vicmd 'k' vi-rev-repeat-search
+bindkey -M vicmd 'K' vi-repeat-search
+bindkey -M vicmd 'z' vi-undo-change
+
+# normal terminal function that was overwritten
+bindkey -M viins '^r' history-incremental-search-backward
+bindkey -M viins '^k' vi-kill-eol
+ 
+# keys to navigate menu
+bindkey -M menuselect 'n' vi-backward-char
+bindkey -M menuselect 'u' vi-up-line-or-history
+bindkey -M menuselect 'i' vi-forward-char
+bindkey -M menuselect 'e' vi-down-line-or-history
+bindkey -v '^?' backward-delete-char
+
+# keys to search previous commands
+autoload -Uz history-search-end
+bindkey -M vicmd '?' history-incremental-search-backward
+bindkey -M vicmd '/' history-incremental-search-forward
+bindkey "^[OA" up-line-or-beginning-search
+bindkey "^[OB" down-line-or-beginning-search
+
+# cursor for each vi mode
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'block' ]]; then
+    echo -ne '\e[1 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'beam' ]]; then
+    echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    zle -K viins # initiate `vi insert` as keymap (can be removed if `bindkey -V` has been set elsewhere)
+    echo -ne "\e[5 q"
+}
+zle -N zle-line-init
+echo -ne '\e[5 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
+
+# enter vim buffer
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^v' edit-command-line
+# export EDITOR="vim --clean -u ~/.config/nvim/settings.vim"
+export EDITOR=vim
+
+# Use lf to switch directories and bind it to ctrl-o
+lfcd () {
+    tmp="$(mktemp)"
+    lf -last-dir-path="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
+bindkey -s '^o' 'lfcd\n'
+
+# plugins
+[ -f "$HOME/.config/zsh/plugin.zsh" ] && source "$HOME/.config/zsh/plugin.zsh"
+
+# brew
+. /usr/local/etc/profile.d/z.sh
+
+# starship
+eval "$(starship init zsh)"
+
+# syntax highlighting
+zle -N down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
