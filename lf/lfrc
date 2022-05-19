@@ -112,7 +112,7 @@ cmd share ${{
 	printf "%s\n$fx"
 	printf "\n\tShare these files?[y/N] "
 	read -n1 ans
-	[ $ans = "y" ] && cp $fx ~/Dropbox/temp/
+	[ $ans = "y" ] && cp $fx ~/Dropbox/temp/ && lf -remote "send $id echomsg file shared"
 }}
 
 cmd quicklook &{{
