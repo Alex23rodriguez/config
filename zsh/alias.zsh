@@ -11,3 +11,7 @@ alias cfg="cd ~/.config"
 
 alias src="source ~/.zshrc"
 alias cpdir='pwd|pbcopy'
+
+# save copying
+alias cp="cp -i"
+alias mv="mv -i"
