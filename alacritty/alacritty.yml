@@ -47,7 +47,7 @@ window:
   # by DPI and the specified value is always added at both opposing sides.
   padding:
     x: 10
-    y: 15
+    y: 20
 
   # Spread additional padding evenly around the terminal content.
   #dynamic_padding: false
@@ -67,7 +67,7 @@ window:
   #
   # Window opacity as a floating point number from `0.0` to `1.0`.
   # The value `0.0` is completely transparent and `1.0` is opaque.
-  opacity: 0.90
+  opacity: 0.8
 
   # Startup Mode (changes require restart)
   #
@@ -445,7 +445,7 @@ cursor:
 #working_directory: None
 
 # Send ESC (\x1b) before characters when alt is pressed.
-#alt_send_esc: true
+# alt_send_esc: true
 
 # Offer IPC using `alacritty msg` (unix only)
 #ipc_socket: true
@@ -804,6 +804,15 @@ key_bindings:
   #- { key: Slash,  mods: Shift,         mode: Vi|~Search, action: SearchBackward          }
   - { key: K,                           mode: Vi|~Search, action: SearchNext              }
   - { key: K,      mods: Shift,         mode: Vi|~Search, action: SearchPrevious          }
+
+  # Alt as Meta
+  - { key: I,         mods: Alt,       chars: "\x1bi"   }
+  - { key: N,         mods: Alt,       chars: "\x1bn"   }
+  - { key: Y,         mods: Alt,       chars: "\x1by"   }
+  - { key: L,         mods: Alt,       chars: "\x1bl"   }
+  - { key: 1,         mods: Alt,       chars: "\x1b0"   }
+  - { key: 2,         mods: Alt,       chars: "\x1b9"   }
+  - { key: Space,     mods: Alt,       chars: "\x1b "   }
 
   # Search Mode
   #- { key: Return,                mode: Search|Vi,  action: SearchConfirm         }
