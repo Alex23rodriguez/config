@@ -1,0 +1,6 @@
+karabiner/automatic_backups
+lazygit/state.yml
+lf/**
+!lf/lfrc
+!lf/scope
+raycast/extensions
