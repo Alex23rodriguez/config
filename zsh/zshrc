@@ -1,31 +1,16 @@
-# path and aliases
+# path, aliases and exports
 [ -f "$HOME/.config/zsh/path.zsh" ] && source "$HOME/.config/zsh/path.zsh"
 [ -f "$HOME/.config/zsh/alias.zsh" ] && source "$HOME/.config/zsh/alias.zsh"
+[ -f "$HOME/.config/zsh/exports.zsh" ] && source "$HOME/.config/zsh/exports.zsh"
 
 [[ -s $HOME/.nvm/nvm.sh ]] && . $HOME/.nvm/nvm.sh
-
-
-# Johnny Decimal
-jcdfunction() {
-	if [ $# -eq 0 ]; then
-		cd ~/Documents
-	fi
-	if [ $# -eq 1 ]; then
-		cd ~/Documents/*/${1}*
-	fi
-	if [ $# -eq 2 ]; then
-        	cd ~/Documents/*/${1}*/${2}*
-	fi
-
-}
-export jcdfunction
-alias jcd='jcdfunction'
 
  
 # ------------ cool zsh ------------
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.cache/zsh/history
+setopt HIST_FIND_NO_DUPS
  
 # auto/tab complete
 autoload -U compinit
@@ -106,16 +91,34 @@ lfcd () {
 }
 bindkey -s '^o' 'lfcd\n'
 
-# plugins
+### better fzf
+if type rg &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='rg --files'
+  export FZF_DEFAULT_OPTS='-m --height 50% --border'
+fi
+
+fvim(){
+		temp=$(fd -t f -H | fzf); echo vim $temp && vim $temp
+}
+fcd(){
+		cd $HOME && cd $(fd -t d | fzf +m)
+}
+fcdh(){
+		cd $HOME && cd $(fd -t d | fzf +m)
+}
+
+
+### plugins
 [ -f "$HOME/.config/zsh/plugin.zsh" ] && source "$HOME/.config/zsh/plugin.zsh"
 
-# brew
+### brew
+# for z command
 . /usr/local/etc/profile.d/z.sh
 
-# starship
+### starship
 eval "$(starship init zsh)"
 
-# syntax highlighting
+### syntax highlighting
 zle -N down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
