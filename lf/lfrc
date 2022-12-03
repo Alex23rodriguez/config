@@ -9,7 +9,6 @@
 #    in your shellrc (`alias lf="lfub") or if set to a binding, should be
 #    called directly instead of normal lf.
 set icons
-set cleaner '~/.config/lf/cleaner'
 set previewer '~/.config/lf/scope'
 
 # General settings
@@ -119,6 +118,11 @@ cmd quicklook &{{
 	qlmanage -p $f &> /dev/null 
 }}
 
+cmd cppath &{{
+    echo $f | pbcopy; 
+    lf -remote "send $id echomsg path copied: $f";
+}}
+
 # command mappings
 map D trash
 map R rm
@@ -130,6 +134,7 @@ map Z shell
 map M push :chmod<enter><c-r>
 map S share
 map Q quicklook
+map c cppath
 
 # better renaming
 map A rename
