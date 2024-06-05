@@ -24,6 +24,7 @@
 #TERM: alacritty
 
 window:
+  option_as_alt: "Both"
   # Window dimensions (changes require restart)
   #
   # Number of lines/columns (not pixels) in the terminal. The number of columns
@@ -456,9 +457,6 @@ cursor:
 # directory of the parent process will be used.
 #working_directory: None
 
-# Send ESC (\x1b) before characters when alt is pressed.
-# alt_send_esc: true
-
 # Offer IPC using `alacritty msg` (unix only)
 #ipc_socket: true
 
@@ -759,6 +757,8 @@ cursor:
 # in the order they were defined in.
 key_bindings:
   - { key: Return, mods: Shift|Command, action: CreateNewWindow }
+  - { key: I, mods: Alt, chars: "\x1Bj" } # send alt-j instead of alt-i (tab)
+  - { key: I, mods: Alt|Shift, chars: "\x1BJ" } # send alt-J instead of alt-I (tab)
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
