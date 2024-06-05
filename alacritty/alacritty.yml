@@ -757,8 +757,10 @@ cursor:
 # in the order they were defined in.
 key_bindings:
   - { key: Return, mods: Shift|Command, action: CreateNewWindow }
+
   - { key: I, mods: Alt, chars: "\x1Bj" } # send alt-j instead of alt-i (tab)
   - { key: I, mods: Alt|Shift, chars: "\x1BJ" } # send alt-J instead of alt-I (tab)
+  - { key: I, mods: Control, chars: "\x0A" } # send ctrl-J instead of ctrl-I (tab)
   #- { key: Paste,                                       action: Paste          }
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
@@ -817,18 +819,6 @@ key_bindings:
   - { key: K, mode: Vi|~Search, action: SearchNext }
   - { key: K, mods: Shift, mode: Vi|~Search, action: SearchPrevious }
   # Shift and control ?
-
-  # Alt as Meta
-  - { key: T, mods: Shift|Control, chars: "\x1bT" } # \x7f (decimal 127) represents the delete character
-  - { key: I, mods: Alt, chars: "\x1bi" } # \x1b (decimal 27) represents ESC in ascii, so we're efectively directly sending an escape sequence
-  - { key: N, mods: Alt, chars: "\x1bn" }
-  - { key: Y, mods: Alt, chars: "\x1by" }
-  - { key: L, mods: Alt, chars: "\x1bl" }
-  - { key: 1, mods: Alt, chars: "\x1b0" }
-  - { key: 2, mods: Alt, chars: "\x1b9" }
-  - { key: Space, mods: Alt, chars: "\x1b " }
-  - { key: U, mods: Alt, chars: "\x1bu" }
-  - { key: E, mods: Alt, chars: "\x1be" }
 
   # Search Mode
   #- { key: Return,                mode: Search|Vi,  action: SearchConfirm         }
